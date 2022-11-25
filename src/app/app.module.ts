@@ -12,6 +12,7 @@ import { account } from './schemas/account';
 import { contactList } from './schemas/contact-list';
 import { contact } from './schemas/contact';
 import { OneOfComponent } from './components/one-of/one-of.component';
+import { OrderedListComponent } from './components/ordered-list/ordered-list.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ export class AppModule {
     componentRegistry.setAll({
       'group': GroupComponent,
       'oneOf': OneOfComponent,
+      'orderedList': OrderedListComponent,
       'textInput': TextInputComponent,
       'select': SelectComponent,
     });

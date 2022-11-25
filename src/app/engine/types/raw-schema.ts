@@ -26,6 +26,8 @@ export interface OneOfRawSchema extends BaseRawSchema {
 export interface OrderedListRawSchema extends BaseRawSchema {
   name: 'orderedList';
   label: string;
+  addLabel: string;
+  emptyMessage: string;
   item: ComponentRawSchema;
   defaultValue?: any[];
 }

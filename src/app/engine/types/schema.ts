@@ -30,6 +30,8 @@ export interface OneOfSchema extends BaseSchema {
 export interface OrderedListSchema extends BaseSchema {
   name: 'orderedList';
   label: string;
+  addLabel: string;
+  emptyMessage: string;
 }
 
 export interface TextInputSchema extends BaseSchema {
