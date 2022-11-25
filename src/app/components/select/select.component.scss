@@ -1,0 +1,16 @@
+:host {
+  display: block;
+  border: 1px dashed #ccc;
+  padding: 8px;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+
+  main {
+    display: flex;
+    justify-content: space-between;
+  }
+}

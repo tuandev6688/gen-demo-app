@@ -1,0 +1,20 @@
+<header>
+  <div class="props">
+    <div class="label">{{label}}</div>
+    <div class="meta">(id: {{id}})</div>
+  </div>
+
+  <div class="badges">
+    <div class="badge">dirty: {{dirty}}</div>
+    <div class="badge">touched: {{touched}}</div>
+    <div class="badge">valid: {{valid}}</div>
+  </div>
+</header>
+
+<main>
+  <input #input type="text" [value]="value || ''" (input)="setValue(input.value)" (blur)="markAsTouched()">
+  <div class="actions">
+    <button (click)="reset()">Reset</button>
+    <button (click)="setValid(!valid)">Mark as {{valid ? 'invalid' : 'valid'}}</button>
+  </div>
+</main>

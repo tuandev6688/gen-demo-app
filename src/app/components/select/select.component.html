@@ -1,0 +1,24 @@
+<header>
+  <div class="props">
+    <div class="label">{{label}}</div>
+    <div class="meta">(id: {{id}})</div>
+  </div>
+
+  <div class="badges">
+    <div class="badge">dirty: {{dirty}}</div>
+    <div class="badge">touched: {{touched}}</div>
+    <div class="badge">valid: {{valid}}</div>
+  </div>
+</header>
+
+<main>
+  <select #select (change)="setValue(select.value)">
+    <option [value]="null">- None -</option>
+    <option *ngFor="let option of valueOptions" [value]="option.value">{{option.label}}</option>
+  </select>
+
+  <div class="actions">
+    <button (click)="reset()">Reset</button>
+    <button (click)="setValid(!valid)">Mark as {{valid ? 'invalid' : 'valid'}}</button>
+  </div>
+</main>

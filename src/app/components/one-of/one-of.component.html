@@ -1,0 +1,27 @@
+<header>
+  <div class="props">
+    <div class="label">{{label}}</div>
+    <div class="meta">(id: {{id}})</div>
+  </div>
+
+  <div class="badges">
+    <div class="badge">dirty: {{dirty}}</div>
+    <div class="badge">touched: {{touched}}</div>
+    <div class="badge">valid: {{valid}}</div>
+  </div>
+</header>
+
+<main>
+  <select #select (change)="selectBranch(select.value)">
+    <option [value]="null">- None -</option>
+    <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+  </select>
+
+  <ng-container *ngFor="let child of children" [appOutlet]="child.id"></ng-container>
+
+  <ng-container *ngFor="let branch of branches">
+    <ng-container *ngIf="branch.key === value[branchKey]">
+      <ng-container *ngFor="let child of branch.branchChildren" [appOutlet]="child.id"></ng-container>
+    </ng-container>
+  </ng-container>
+</main>

@@ -1,1 +1,59 @@
-/* You can add global styles to this file, and also import other style files */
+html, body {
+  height: 100vh;
+  margin: 0;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+}
+
+input, button, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input, select {
+  padding: 4px 8px;
+  width: 200px;
+  box-sizing: border-box;
+}
+
+.props {
+  display: flex;
+  gap: 8px;
+
+  .meta {
+    color: #777;
+  }
+}
+
+.badges {
+  display: flex;
+  gap: 8px;
+  color: #777;
+
+  .badge {
+
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+
+  button {
+    appearance: none;
+    background: transparent;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    cursor: pointer;
+
+    &:hover {
+      background: #cccccc;
+    }
+  }
+}

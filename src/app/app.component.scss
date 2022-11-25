@@ -1,0 +1,14 @@
+:host {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 360px;
+
+  main {
+    padding: 8px;
+  }
+
+  aside {
+    padding: 8px;
+    border-left: 1px solid #ccc;
+  }
+}

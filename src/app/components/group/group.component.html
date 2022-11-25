@@ -1,0 +1,16 @@
+<header>
+  <div class="props">
+    <div class="label">{{label}}</div>
+    <div class="meta">(id: {{id}})</div>
+  </div>
+
+  <div class="badges">
+    <div class="badge">dirty: {{dirty}}</div>
+    <div class="badge">touched: {{touched}}</div>
+    <div class="badge">valid: {{valid}}</div>
+  </div>
+</header>
+
+<main>
+  <ng-container *ngFor="let child of children" [appOutlet]="child.id"></ng-container>
+</main>
