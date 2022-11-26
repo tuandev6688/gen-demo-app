@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  schemaName = 'contactList';
+  schemaName = 'contact';
   value$!: Observable<any>;
 
   constructor(private facade: FacadeService) {}

@@ -2,7 +2,7 @@ import { Directive, Input, ViewContainerRef } from '@angular/core';
 import { FacadeService } from './facade.service';
 import { Subject, takeUntil } from 'rxjs';
 import { ComponentRegistry } from './component.registry';
-import { ComponentSchema } from './types/schema';
+import { ComponentStructure } from './types/schema';
 
 @Directive({
   selector: '[appOutlet]',
@@ -17,12 +17,12 @@ export class OutletDirective {
   ) { }
 
   @Input('appOutlet') set idOrAlias(idOrAlias: number | string) {
-    this.facade.watchSchema(idOrAlias)
+    this.facade.watchStructure(idOrAlias)
       .pipe(takeUntil(this.destroy$))
       .subscribe(schema => this.render(schema));
   }
 
-  private render(schema: ComponentSchema): void {
+  private render(schema: ComponentStructure): void {
     this.vcr.clear();
 
     if (schema.hidden) {

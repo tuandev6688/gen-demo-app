@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { SchemaService } from './schema.service';
+import { StructureService } from './structure.service';
 import { ComponentState } from './types';
 import { Observable } from 'rxjs';
 import { ComponentRawSchema } from './types/raw-schema';
-import { ComponentSchema } from './types/schema';
+import { ComponentStructure } from './types/schema';
 import { StateService } from './state.service';
 import { ValueService } from './value.service';
 import { RawSchemaParser } from './util/raw-schema-parser';
@@ -13,23 +13,25 @@ export class FacadeService {
 
   constructor(
     private parser: RawSchemaParser,
-    private schemaService: SchemaService,
+    private structureService: StructureService,
     private stateService: StateService,
     private valueService: ValueService,
   ) { }
 
-  registerSchema(alias: string, rawSchema: ComponentRawSchema): void {
-    const { rootComponentId, componentSchemas, componentStates, defaultValue } = this.parser.parse(alias, rawSchema);
+  registerSchema(alias: string, schema: ComponentRawSchema): void {
+    const {
+      rootComponentId, componentStructures, componentStates, defaultValue,
+    } = this.parser.parse(schema, alias, alias);
 
-    this.schemaService.setAll(componentSchemas);
-    this.schemaService.setAlias(alias, rootComponentId);
+    this.structureService.setAll(componentStructures);
+    this.structureService.setAlias(alias, rootComponentId);
     this.stateService.setAll(componentStates);
     this.valueService.set(alias, defaultValue);
   }
 
-  watchSchema(idOrAlias: number | string): Observable<ComponentSchema> {
-    const id = typeof idOrAlias === 'number' ? idOrAlias : this.schemaService.getIdByAlias(idOrAlias);
-    return this.schemaService.watch(id);
+  watchStructure(idOrAlias: number | string): Observable<ComponentStructure> {
+    const id = typeof idOrAlias === 'number' ? idOrAlias : this.structureService.getIdByAlias(idOrAlias);
+    return this.structureService.watch(id);
   }
 
   patchState(id: number, patch: Partial<ComponentState>): void {
@@ -54,9 +56,16 @@ export class FacadeService {
   }
 
   reset(id: number): void {
-    console.log('reset', id);
     this.stateService.set(id, { dirty: false, touched: false, valid: true });
-    const valuePath = this.schemaService.get(id).valuePath;
+    const valuePath = this.structureService.get(id).valuePath;
     this.setValue(valuePath, null);
+  }
+
+  addListItem(id: number): void {
+
+  }
+
+  removeListItem(id: number): void {
+
   }
 }

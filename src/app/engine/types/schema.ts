@@ -1,6 +1,4 @@
-import { OrderedListRawSchema } from './raw-schema';
-
-interface BaseSchema {
+interface BaseComponentStructure {
   id: number;
   name: string;
   disabled?: boolean;
@@ -9,13 +7,13 @@ interface BaseSchema {
   valuePath: string;
 }
 
-export interface GroupSchema extends BaseSchema {
+export interface GroupComponentStructure extends BaseComponentStructure {
   name: 'group';
   label: string;
   children: { key: string; id: number }[];
 }
 
-export interface OneOfSchema extends BaseSchema {
+export interface OneOfComponentStructure extends BaseComponentStructure {
   name: 'oneOf';
   label: string;
   commonChildren: { key: string; id: number }[];
@@ -27,29 +25,29 @@ export interface OneOfSchema extends BaseSchema {
   }[];
 }
 
-export interface OrderedListSchema extends BaseSchema {
+export interface OrderedListComponentStructure extends BaseComponentStructure {
   name: 'orderedList';
   label: string;
   addLabel: string;
   emptyMessage: string;
 }
 
-export interface TextInputSchema extends BaseSchema {
+export interface TextInputComponentStructure extends BaseComponentStructure {
   name: 'textInput';
   label: string;
   placeholder: string;
 }
 
-export interface SelectSchema extends BaseSchema {
+export interface SelectComponentStructure extends BaseComponentStructure {
   name: 'select';
   label: string;
   placeholder: string;
   valueOptions: { value: any; label: string }[];
 }
 
-export type ComponentSchema =
-  GroupSchema |
-  OneOfSchema |
-  OrderedListSchema |
-  TextInputSchema |
-  SelectSchema;
+export type ComponentStructure =
+  GroupComponentStructure |
+  OneOfComponentStructure |
+  OrderedListComponentStructure |
+  TextInputComponentStructure |
+  SelectComponentStructure;

@@ -1,37 +1,37 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, distinctUntilChanged, map, Observable } from 'rxjs';
 import produce from 'immer';
-import { ComponentSchema } from './types/schema';
+import { ComponentStructure } from './types/schema';
 
-type Snapshot = Record<number, ComponentSchema>;
+type Snapshot = Record<number, ComponentStructure>;
 
 @Injectable({ providedIn: 'root' })
-export class SchemaService {
+export class StructureService {
   private readonly snapshot$ = new BehaviorSubject<Snapshot>({});
   private aliases: Record<string, number> = {};
 
   constructor() { }
 
-  set(id: number, schema: ComponentSchema): void {
+  set(id: number, structure: ComponentStructure): void {
     this.process(snapshot => {
-      snapshot[id] = schema;
+      snapshot[id] = structure;
     });
   }
 
-  setAll(schemas: Record<number, ComponentSchema>): void {
+  setAll(structures: Record<number, ComponentStructure>): void {
     this.process(snapshot => {
-      for (const entry of Object.entries(schemas)) {
-        const [id, schema] = entry as any as [number, ComponentSchema];
+      for (const entry of Object.entries(structures)) {
+        const [id, schema] = entry as any as [number, ComponentStructure];
         snapshot[id] = schema;
       }
     });
   }
 
-  get(id: number): any {
+  get(id: number): ComponentStructure {
     return this.snapshot$.getValue()[id];
   }
 
-  watch(id: number): Observable<any> {
+  watch(id: number): Observable<ComponentStructure> {
     return this.snapshot$.pipe(
       map(snapshot => snapshot[id]),
       distinctUntilChanged(),

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ComponentRawSchema } from '../types/raw-schema';
-import { ComponentSchema } from '../types/schema';
+import { ComponentStructure } from '../types/schema';
 import { ComponentState } from '../types';
 
 export interface ParseResult {
   rootComponentId: number;
-  componentSchemas: Record<number, ComponentSchema>;
+  componentStructures: Record<number, ComponentStructure>;
   componentStates: Record<number, ComponentState>;
   defaultValue: any;
 }
@@ -14,11 +14,11 @@ export interface ParseResult {
 export class RawSchemaParser {
   private increment = 1;
 
-  parse(alias: string, rawSchema: ComponentRawSchema): ParseResult {
-    const componentSchemas: Record<number, ComponentSchema> = {};
-    const rootComponentId = this.flattenNode(rawSchema, componentSchemas, alias, alias);
+  parse(rawSchema: ComponentRawSchema, path: string, valuePath: string): ParseResult {
+    const componentStructures: Record<number, ComponentStructure> = {};
+    const rootComponentId = this.flattenNode(rawSchema, componentStructures, path, valuePath);
 
-    const componentsIds: number[] = Object.keys(componentSchemas) as any;
+    const componentsIds: number[] = Object.keys(componentStructures) as any;
     const componentStates: Record<number, ComponentState> = {};
     for (const id of componentsIds) {
       componentStates[id] = { dirty: false, touched: false, valid: true };
@@ -26,12 +26,12 @@ export class RawSchemaParser {
 
     const defaultValue: any = this.getDefaultValue(rawSchema);
 
-    return { rootComponentId, componentSchemas, componentStates, defaultValue };
+    return { rootComponentId, componentStructures, componentStates, defaultValue };
   }
 
-  private flattenNode(rawSchema: ComponentRawSchema, components: Record<number, ComponentSchema>, path: string, valuePath: string): any {
+  private flattenNode(rawSchema: ComponentRawSchema, components: Record<number, ComponentStructure>, path: string, valuePath: string): any {
     const id = this.increment++;
-    let schema: ComponentSchema;
+    let schema: ComponentStructure;
 
     if (rawSchema.name === 'group') {
       const { children, ...props } = rawSchema;

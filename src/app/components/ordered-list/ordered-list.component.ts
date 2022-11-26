@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EngineModule } from '../../engine/engine.module';
+import { FacadeService } from '../../engine/facade.service';
 
 @Component({
   selector: 'app-ordered-list',
@@ -18,9 +19,15 @@ export class OrderedListComponent {
   addLabel!: string;
   emptyMessage!: string;
 
-  children!: { index: number; id: number }[]; // TODO: connect this field to schema and value to get the actual list of items
+  children!: { index: number; id: number }[];
 
   dirty!: boolean;
   touched!: boolean;
   valid!: boolean;
+
+  constructor(private facade: FacadeService) {}
+
+  addListItem(): void {
+    this.facade.addListItem(this.id);
+  }
 }

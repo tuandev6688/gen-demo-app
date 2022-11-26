@@ -16,5 +16,6 @@
     <ng-container *ngFor="let child of children" [appOutlet]="child.id"></ng-container>
   </div>
   <div class="empty" *ngIf="!children?.length">{{emptyMessage}}</div>
-  <button>{{addLabel}}</button>
+
+  <button (click)="addListItem()">{{addLabel}}</button>
 </main>
