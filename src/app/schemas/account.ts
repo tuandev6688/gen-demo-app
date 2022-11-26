@@ -1,7 +1,7 @@
-import { ComponentRawSchema } from '../engine/types/raw-schema';
+import { ComponentSchema } from '../engine/types/schema';
 import { contact } from './contact';
 
-export const account: ComponentRawSchema = {
+export const account: ComponentSchema = {
   name: 'oneOf',
   label: 'Account',
   commonChildren: [

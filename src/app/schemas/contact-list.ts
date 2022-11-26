@@ -1,7 +1,7 @@
-import { OrderedListRawSchema } from '../engine/types/raw-schema';
+import { OrderedListComponentSchema } from '../engine/types/schema';
 import { contact } from './contact';
 
-export const contactList: OrderedListRawSchema = {
+export const contactList: OrderedListComponentSchema = {
   name: 'orderedList',
   label: 'Contact list',
   addLabel: '+ Add contact',

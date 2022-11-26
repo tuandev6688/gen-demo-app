@@ -1,6 +1,6 @@
-import { GroupRawSchema } from '../engine/types/raw-schema';
+import { GroupComponentSchema } from '../engine/types/schema';
 
-export const contact: GroupRawSchema = {
+export const contact: GroupComponentSchema = {
   name: 'group',
   label: 'Contact',
   children: [

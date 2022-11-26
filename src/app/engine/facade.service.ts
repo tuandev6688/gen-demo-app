@@ -1,31 +1,31 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ComponentState } from './types';
-import { ComponentRawSchema } from './types/raw-schema';
+import { ComponentSchema } from './types/schema';
 import { ComponentStructure } from './types/structure';
 import { StructureService } from './model/structure.service';
 import { StateService } from './model/state.service';
 import { ValueService } from './model/value.service';
-import { RawSchemaParser } from './util/raw-schema-parser';
+import { SchemaParser } from './util/schema-parser';
 
 @Injectable({ providedIn: 'root' })
 export class FacadeService {
 
   constructor(
-    private parser: RawSchemaParser,
+    private parser: SchemaParser,
     private structureService: StructureService,
     private stateService: StateService,
     private valueService: ValueService,
   ) { }
 
-  registerSchema(alias: string, schema: ComponentRawSchema): void {
+  registerSchema(alias: string, schema: ComponentSchema): void {
     const {
-      rootComponentId, componentStructures, componentStates, defaultValue,
+      rootComponentId, componentsStructures, componentsStates, defaultValue,
     } = this.parser.parse(schema, alias, alias);
 
-    this.structureService.setAll(componentStructures);
+    this.structureService.setAll(componentsStructures);
     this.structureService.setAlias(alias, rootComponentId);
-    this.stateService.setAll(componentStates);
+    this.stateService.setAll(componentsStates);
     this.valueService.set(alias, defaultValue);
   }
 

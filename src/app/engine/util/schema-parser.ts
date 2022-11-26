@@ -1,35 +1,35 @@
 import { Injectable } from '@angular/core';
-import { ComponentRawSchema } from '../types/raw-schema';
+import { ComponentSchema } from '../types/schema';
 import { ComponentStructure } from '../types/structure';
 import { ComponentState } from '../types';
 
 export interface ParseResult {
   rootComponentId: number;
-  componentStructures: Record<number, ComponentStructure>;
-  componentStates: Record<number, ComponentState>;
+  componentsStructures: Record<number, ComponentStructure>;
+  componentsStates: Record<number, ComponentState>;
   defaultValue: any;
 }
 
 @Injectable({ providedIn: 'root' })
-export class RawSchemaParser {
+export class SchemaParser {
   private increment = 1;
 
-  parse(rawSchema: ComponentRawSchema, path: string, valuePath: string): ParseResult {
-    const componentStructures: Record<number, ComponentStructure> = {};
-    const rootComponentId = this.flattenNode(rawSchema, componentStructures, path, valuePath);
+  parse(rawSchema: ComponentSchema, path: string, valuePath: string): ParseResult {
+    const componentsStructures: Record<number, ComponentStructure> = {};
+    const rootComponentId = this.flattenNode(rawSchema, componentsStructures, path, valuePath);
 
-    const componentsIds: number[] = Object.keys(componentStructures) as any;
-    const componentStates: Record<number, ComponentState> = {};
+    const componentsIds: number[] = Object.keys(componentsStructures) as any;
+    const componentsStates: Record<number, ComponentState> = {};
     for (const id of componentsIds) {
-      componentStates[id] = { dirty: false, touched: false, valid: true };
+      componentsStates[id] = { dirty: false, touched: false, valid: true };
     }
 
     const defaultValue: any = this.getDefaultValue(rawSchema);
 
-    return { rootComponentId, componentStructures, componentStates, defaultValue };
+    return { rootComponentId, componentsStructures, componentsStates, defaultValue };
   }
 
-  private flattenNode(rawSchema: ComponentRawSchema, components: Record<number, ComponentStructure>, path: string, valuePath: string): any {
+  private flattenNode(rawSchema: ComponentSchema, components: Record<number, ComponentStructure>, path: string, valuePath: string): any {
     const id = this.increment++;
     let schema: ComponentStructure;
 
@@ -83,7 +83,7 @@ export class RawSchemaParser {
     return id;
   }
 
-  private getDefaultValue(rawSchema: ComponentRawSchema): any {
+  private getDefaultValue(rawSchema: ComponentSchema): any {
     let result: any;
 
     if (rawSchema.name === 'group') {
