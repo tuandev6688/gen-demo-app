@@ -2,7 +2,7 @@ import { Directive, Input, ViewContainerRef } from '@angular/core';
 import { FacadeService } from './facade.service';
 import { Subject, takeUntil } from 'rxjs';
 import { ComponentRegistry } from './component.registry';
-import { ComponentStructure } from './types/schema';
+import { ComponentStructure } from './types/structure';
 
 @Directive({
   selector: '[appOutlet]',

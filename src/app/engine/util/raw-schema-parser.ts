@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ComponentRawSchema } from '../types/raw-schema';
-import { ComponentStructure } from '../types/schema';
+import { ComponentStructure } from '../types/structure';
 import { ComponentState } from '../types';
 
 export interface ParseResult {

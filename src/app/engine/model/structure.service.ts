@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, distinctUntilChanged, map, Observable } from 'rxjs';
 import produce from 'immer';
-import { ComponentStructure } from '../types/schema';
+import { ComponentStructure } from '../types/structure';
 
 type Snapshot = Record<number, ComponentStructure>;
 

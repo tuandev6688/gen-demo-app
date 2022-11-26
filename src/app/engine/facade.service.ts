@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ComponentState } from './types';
 import { ComponentRawSchema } from './types/raw-schema';
-import { ComponentStructure } from './types/schema';
+import { ComponentStructure } from './types/structure';
 import { StructureService } from './model/structure.service';
 import { StateService } from './model/state.service';
 import { ValueService } from './model/value.service';
