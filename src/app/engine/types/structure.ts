@@ -3,7 +3,7 @@ interface BaseComponentStructure {
   name: string;
   disabled?: boolean;
   hidden?: boolean;
-  path: string;
+  schemaPath: string;
   valuePath: string;
 }
 
@@ -30,6 +30,7 @@ export interface OrderedListComponentStructure extends BaseComponentStructure {
   label: string;
   addLabel: string;
   emptyMessage: string;
+  items: { index: number, id: number }[];
 }
 
 export interface TextInputComponentStructure extends BaseComponentStructure {

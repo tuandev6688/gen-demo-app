@@ -1,7 +1,7 @@
 <header>
   <div class="props">
     <div class="label">{{label}}</div>
-    <div class="meta">(id: {{id}})</div>
+    <div class="meta">(id: {{id}}, valuePath: {{valuePath}})</div>
   </div>
 
   <div class="badges">
@@ -12,10 +12,10 @@
 </header>
 
 <main>
-  <div class="children" *ngIf="!children?.length">
-    <ng-container *ngFor="let child of children" [appOutlet]="child.id"></ng-container>
+  <div class="items" *ngIf="items?.length">
+    <ng-container *ngFor="let item of items" [appOutlet]="item.id"></ng-container>
   </div>
-  <div class="empty" *ngIf="!children?.length">{{emptyMessage}}</div>
+  <div class="empty" *ngIf="!items?.length">{{emptyMessage}}</div>
 
-  <button (click)="addListItem()">{{addLabel}}</button>
+  <button class="add" (click)="addListItem()">{{addLabel}}</button>
 </main>

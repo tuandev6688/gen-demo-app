@@ -14,9 +14,9 @@ export interface ParseResult {
 export class SchemaParser {
   private increment = 1;
 
-  parse(rawSchema: ComponentSchema, path: string, valuePath: string): ParseResult {
+  parse(schema: ComponentSchema, schemaPath: string, valuePath: string): ParseResult {
     const componentsStructures: Record<number, ComponentStructure> = {};
-    const rootComponentId = this.flattenNode(rawSchema, componentsStructures, path, valuePath);
+    const rootComponentId = this.flattenNode(schema, componentsStructures, schemaPath, valuePath);
 
     const componentsIds: number[] = Object.keys(componentsStructures) as any;
     const componentsStates: Record<number, ComponentState> = {};
@@ -24,83 +24,84 @@ export class SchemaParser {
       componentsStates[id] = { dirty: false, touched: false, valid: true };
     }
 
-    const defaultValue: any = this.getDefaultValue(rawSchema);
+    const defaultValue: any = this.getDefaultValue(schema);
 
     return { rootComponentId, componentsStructures, componentsStates, defaultValue };
   }
 
-  private flattenNode(rawSchema: ComponentSchema, components: Record<number, ComponentStructure>, path: string, valuePath: string): any {
+  private flattenNode(schema: ComponentSchema, components: Record<number, ComponentStructure>, schemaPath: string, valuePath: string): any {
     const id = this.increment++;
-    let schema: ComponentStructure;
+    let structure: ComponentStructure;
 
-    if (rawSchema.name === 'group') {
-      const { children, ...props } = rawSchema;
-      schema = {
+    if (schema.name === 'group') {
+      const { children, ...props } = schema;
+      structure = {
         id,
-        path,
+        schemaPath: schemaPath,
         valuePath,
         ...props,
         children: children.map(child => {
-          const childId = this.flattenNode(child, components, `${path}/children/${child.key}`, `${valuePath}/${child.key}`);
+          const childId = this.flattenNode(child, components, `${schemaPath}/children/${child.key}`, `${valuePath}/${child.key}`);
           return { id: childId, key: child.key };
         }),
       };
-    } else if (rawSchema.name === 'oneOf') {
-      const { commonChildren, branches, ...props } = rawSchema;
-      schema = {
+    } else if (schema.name === 'oneOf') {
+      const { commonChildren, branches, ...props } = schema;
+      structure = {
         id,
-        path,
+        schemaPath: schemaPath,
         valuePath,
         ...props,
         commonChildren: commonChildren.map(child => {
-          const childId = this.flattenNode(child, components, `${path}/commonChildren/${child.key}`, `${valuePath}/${child.key}`);
+          const childId = this.flattenNode(child, components, `${schemaPath}/commonChildren/${child.key}`, `${valuePath}/${child.key}`);
           return { id: childId, key: child.key };
         }),
         branches: branches.map(branch => {
           return {
             ...branch,
             branchChildren: branch.branchChildren.map(child => {
-              const childId = this.flattenNode(child, components, `${path}/branches/${branch.key}/branchChildren/${child.key}`, `${valuePath}/${child.key}`);
+              const childId = this.flattenNode(child, components, `${schemaPath}/branches/${branch.key}/branchChildren/${child.key}`, `${valuePath}/${child.key}`);
               return { id: childId, key: child.key };
             }),
           };
         }),
       };
-    } else if (rawSchema.name === 'orderedList') {
-      const { item, ...props } = rawSchema;
-      schema = {
+    } else if (schema.name === 'orderedList') {
+      const { item, ...props } = schema;
+      structure = {
         id,
-        path,
+        schemaPath,
         valuePath,
         ...props,
+        items: [],
       };
     } else {
-      schema = { id, path, valuePath, ...rawSchema };
+      structure = { id, schemaPath, valuePath, ...schema };
     }
 
-    components[id] = schema;
+    components[id] = structure;
 
     return id;
   }
 
-  private getDefaultValue(rawSchema: ComponentSchema): any {
+  private getDefaultValue(schema: ComponentSchema): any {
     let result: any;
 
-    if (rawSchema.name === 'group') {
+    if (schema.name === 'group') {
       result = {};
-      for (const child of rawSchema.children) {
+      for (const child of schema.children) {
         result[child.key] = this.getDefaultValue(child);
       }
-    } else if (rawSchema.name === 'oneOf') {
+    } else if (schema.name === 'oneOf') {
       result = {
-        [rawSchema.branchKey]: null,
+        [schema.branchKey]: null,
       };
-      for (const child of rawSchema.commonChildren) {
+      for (const child of schema.commonChildren) {
         result[child.key] = this.getDefaultValue(child);
       }
-    } else if (rawSchema.name === 'orderedList') {
+    } else if (schema.name === 'orderedList') {
       result = [];
-    } else if (rawSchema.name === 'textInput') {
+    } else if (schema.name === 'textInput') {
       result = '';
     } else {
       result = null;

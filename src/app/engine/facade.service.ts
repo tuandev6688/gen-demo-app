@@ -3,16 +3,18 @@ import { Observable } from 'rxjs';
 import { ComponentState } from './types';
 import { ComponentSchema } from './types/schema';
 import { ComponentStructure } from './types/structure';
+import { SchemaParser } from './util/schema-parser';
 import { StructureService } from './model/structure.service';
 import { StateService } from './model/state.service';
 import { ValueService } from './model/value.service';
-import { SchemaParser } from './util/schema-parser';
+import { SchemaService } from './model/schema.service';
 
 @Injectable({ providedIn: 'root' })
 export class FacadeService {
 
   constructor(
     private parser: SchemaParser,
+    private schemaService: SchemaService,
     private structureService: StructureService,
     private stateService: StateService,
     private valueService: ValueService,
@@ -23,6 +25,7 @@ export class FacadeService {
       rootComponentId, componentsStructures, componentsStates, defaultValue,
     } = this.parser.parse(schema, alias, alias);
 
+    this.schemaService.set(alias, schema);
     this.structureService.setAll(componentsStructures);
     this.structureService.setAlias(alias, rootComponentId);
     this.stateService.setAll(componentsStates);
@@ -43,7 +46,6 @@ export class FacadeService {
   }
 
   setValue(path: string, value: any): void {
-    console.log('setValue', path, value);
     this.valueService.set(path, value);
   }
 

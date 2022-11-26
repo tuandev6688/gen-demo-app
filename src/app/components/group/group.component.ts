@@ -11,7 +11,6 @@ import { EngineModule } from '../../engine/engine.module';
 })
 export class GroupComponent {
   id!: number;
-  path!: string;
   valuePath!: string;
 
   label!: string;

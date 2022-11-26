@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, distinctUntilChanged, map, Observable } from 'rxjs';
 import produce from 'immer';
+import { splitPath } from '../util/split-path';
 
 @Injectable({ providedIn: 'root' })
 export class ValueService {
@@ -38,7 +39,7 @@ export class ValueService {
 
   private findNodeByPath(root: any, path: string) {
     let result = root;
-    const segments = this.splitPath(path);
+    const segments = splitPath(path);
     for (const segment of segments) {
       if (!result) {
         result = null;
@@ -65,15 +66,5 @@ export class ValueService {
       func(nearestParent, last);
     });
     this.root$.next(root);
-  }
-
-  splitPath(path: string): string[] {
-    const segments = path.split('/');
-
-    if (segments.length === 0) {
-      throw new Error(`Path cannot be empty.`);
-    }
-
-    return segments;
   }
 }

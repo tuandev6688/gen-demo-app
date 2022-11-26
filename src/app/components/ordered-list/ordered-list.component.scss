@@ -10,8 +10,14 @@
   }
 
   main {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    .items {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .add {
+      margin-top: 8px;
+    }
   }
 }

@@ -11,7 +11,6 @@ import { FacadeService } from '../../engine/facade.service';
 })
 export class TextInputComponent {
   id!: number;
-  path!: string;
   valuePath!: string;
 
   label!: string;

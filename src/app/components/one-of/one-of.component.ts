@@ -12,7 +12,6 @@ import { FacadeService } from '../../engine/facade.service';
 })
 export class OneOfComponent implements OnInit {
   id!: number;
-  path!: string;
   valuePath!: string;
 
   label!: string;
