@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { StructureService } from './structure.service';
-import { ComponentState } from './types';
 import { Observable } from 'rxjs';
+import { ComponentState } from './types';
 import { ComponentRawSchema } from './types/raw-schema';
 import { ComponentStructure } from './types/schema';
-import { StateService } from './state.service';
-import { ValueService } from './value.service';
+import { StructureService } from './model/structure.service';
+import { StateService } from './model/state.service';
+import { ValueService } from './model/value.service';
 import { RawSchemaParser } from './util/raw-schema-parser';
 
 @Injectable({ providedIn: 'root' })
