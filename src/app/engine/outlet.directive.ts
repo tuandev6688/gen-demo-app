@@ -44,7 +44,7 @@ export class OutletDirective {
         }
       });
 
-    this.facade.watchValue(schema.valuePath)
+    this.facade.watchValue(schema.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(value => instance.value = value);
   }

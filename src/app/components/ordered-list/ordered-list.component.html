@@ -1,7 +1,7 @@
 <header>
   <div class="props">
     <div class="label">{{label}}</div>
-    <div class="meta">(id: {{id}}, valuePath: {{valuePath}})</div>
+    <div class="meta">(id: {{id}})</div>
   </div>
 
   <div class="badges">
@@ -9,11 +9,15 @@
     <div class="badge">touched: {{touched}}</div>
     <div class="badge">valid: {{valid}}</div>
   </div>
+
+  <div class="actions">
+    <button *ngIf="removable" (click)="remove()">Remove</button>
+  </div>
 </header>
 
 <main>
   <div class="items" *ngIf="items?.length">
-    <ng-container *ngFor="let item of items" [appOutlet]="item.id"></ng-container>
+    <ng-container *ngFor="let item of items" [appOutlet]="item"></ng-container>
   </div>
   <div class="empty" *ngIf="!items?.length">{{emptyMessage}}</div>
 

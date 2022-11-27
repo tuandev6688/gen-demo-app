@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EngineModule } from '../../engine/engine.module';
 import { FacadeService } from '../../engine/facade.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-one-of',
   standalone: true,
-  imports: [CommonModule, EngineModule],
+  imports: [CommonModule, EngineModule, FormsModule],
   templateUrl: './one-of.component.html',
   styleUrls: ['./one-of.component.scss'],
 })
 export class OneOfComponent implements OnInit {
   id!: number;
-  valuePath!: string;
 
   label!: string;
   commonChildren!: { key: string; id: number }[];
@@ -22,6 +22,7 @@ export class OneOfComponent implements OnInit {
     label: string;
     branchChildren: { key: string; id: number }[];
   }[];
+  removable!: boolean;
 
   value: any;
 
@@ -45,7 +46,7 @@ export class OneOfComponent implements OnInit {
   }
 
   setValue(value: any): void {
-    this.facade.setValue(this.valuePath, value);
+    this.facade.setValue(this.id, value);
   }
 
   reset(): void {
@@ -61,15 +62,13 @@ export class OneOfComponent implements OnInit {
   }
 
   selectBranch(branchKey: string): void {
-    const oldValue = this.facade.getValue(this.valuePath);
-    console.log(oldValue);
+    const oldValue = this.facade.getValue(this.id);
 
     const newValue: any = {
       [this.branchKey]: branchKey,
     };
 
     const commonChildrenKeys = this.commonChildren.map(child => child.key);
-    console.log(oldValue);
     for (const key of commonChildrenKeys) {
       newValue[key] = oldValue[key];
     }
@@ -83,5 +82,9 @@ export class OneOfComponent implements OnInit {
     }
 
     this.setValue(newValue);
+  }
+
+  remove(): void {
+    this.facade.removeListItem(this.id);
   }
 }

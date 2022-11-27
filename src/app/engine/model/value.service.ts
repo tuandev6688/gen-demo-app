@@ -14,9 +14,7 @@ export class ValueService {
   }
 
   get(path: string): any {
-    const value = this.findNodeByPath(this.root$.getValue(), path);
-    console.log('get', path, value);
-    return value;
+    return this.findNodeByPath(this.root$.getValue(), path);
   }
 
   watch(path: string): Observable<any> {

@@ -1,10 +1,12 @@
 interface BaseComponentStructure {
   id: number;
+  parentId: number | null;
+  key: string| number;
   name: string;
   disabled?: boolean;
   hidden?: boolean;
   schemaPath: string;
-  valuePath: string;
+  removable?: boolean;
 }
 
 export interface GroupComponentStructure extends BaseComponentStructure {
@@ -30,7 +32,7 @@ export interface OrderedListComponentStructure extends BaseComponentStructure {
   label: string;
   addLabel: string;
   emptyMessage: string;
-  items: { index: number, id: number }[];
+  items: number[];
 }
 
 export interface TextInputComponentStructure extends BaseComponentStructure {

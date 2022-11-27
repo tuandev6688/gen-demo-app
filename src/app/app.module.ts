@@ -13,6 +13,8 @@ import { contactList } from './schemas/contact-list';
 import { contact } from './schemas/contact';
 import { OneOfComponent } from './components/one-of/one-of.component';
 import { OrderedListComponent } from './components/ordered-list/ordered-list.component';
+import { email } from './schemas/email';
+import { emailList } from './schemas/email-list';
 
 @NgModule({
   declarations: [
@@ -39,5 +41,7 @@ export class AppModule {
     facade.registerSchema('contact', contact);
     facade.registerSchema('contactList', contactList);
     facade.registerSchema('account', account);
+    facade.registerSchema('email', email);
+    facade.registerSchema('emailList', emailList);
   }
 }

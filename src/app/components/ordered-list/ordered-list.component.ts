@@ -12,13 +12,13 @@ import { FacadeService } from '../../engine/facade.service';
 })
 export class OrderedListComponent {
   id!: number;
-  valuePath!: string;
 
   label!: string;
   addLabel!: string;
   emptyMessage!: string;
+  removable!: boolean;
 
-  items!: { index: number, id: number }[];
+  items!: number[];
 
   dirty!: boolean;
   touched!: boolean;
@@ -28,5 +28,9 @@ export class OrderedListComponent {
 
   addListItem(): void {
     this.facade.addListItem(this.id);
+  }
+
+  remove(): void {
+    this.facade.removeListItem(this.id);
   }
 }

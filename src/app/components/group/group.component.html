@@ -1,13 +1,17 @@
 <header>
   <div class="props">
     <div class="label">{{label}}</div>
-    <div class="meta">(id: {{id}}, valuePath: {{valuePath}})</div>
+    <div class="meta">(id: {{id}})</div>
   </div>
 
   <div class="badges">
     <div class="badge">dirty: {{dirty}}</div>
     <div class="badge">touched: {{touched}}</div>
     <div class="badge">valid: {{valid}}</div>
+  </div>
+
+  <div class="actions">
+    <button *ngIf="removable" (click)="remove()">Remove</button>
   </div>
 </header>
 

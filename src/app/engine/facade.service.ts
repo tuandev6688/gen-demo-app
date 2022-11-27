@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { ComponentState } from './types';
 import { ComponentSchema } from './types/schema';
 import { ComponentStructure } from './types/structure';
@@ -8,6 +8,7 @@ import { StructureService } from './model/structure.service';
 import { StateService } from './model/state.service';
 import { ValueService } from './model/value.service';
 import { SchemaService } from './model/schema.service';
+import { HierarchyService } from './model/hierarchy.service';
 
 @Injectable({ providedIn: 'root' })
 export class FacadeService {
@@ -18,12 +19,13 @@ export class FacadeService {
     private structureService: StructureService,
     private stateService: StateService,
     private valueService: ValueService,
+    public hierarchyService: HierarchyService,
   ) { }
 
   registerSchema(alias: string, schema: ComponentSchema): void {
     const {
       rootComponentId, componentsStructures, componentsStates, defaultValue,
-    } = this.parser.parse(schema, alias, alias);
+    } = this.parser.parse(schema, alias, null, alias);
 
     this.schemaService.set(alias, schema);
     this.structureService.setAll(componentsStructures);
@@ -45,29 +47,40 @@ export class FacadeService {
     return this.stateService.watch(id);
   }
 
-  setValue(path: string, value: any): void {
-    this.valueService.set(path, value);
+  setValue(id: number, value: any): void {
+    const valuePath = this.hierarchyService.getValuePath(id);
+    this.valueService.set(valuePath, value);
   }
 
-  watchValue(valuePath: string): Observable<any> {
-    return this.valueService.watch(valuePath);
-  }
-
-  getValue(valuePath: string): any {
+  getValue(id: number): any {
+    const valuePath = this.hierarchyService.getValuePath(id);
     return this.valueService.get(valuePath);
+  }
+
+  watchValue(id: number): Observable<any> {
+    return this.hierarchyService.watchValuePath(id).pipe(
+      switchMap(valuePath => this.valueService.watch(valuePath)),
+    );
+  }
+
+  getValueByPath(path: string): any {
+    return this.valueService.get(path);
+  }
+
+  watchValueByPath(path: string): Observable<any> {
+    return this.valueService.watch(path);
   }
 
   reset(id: number): void {
     this.stateService.set(id, { dirty: false, touched: false, valid: true });
-    const valuePath = this.structureService.get(id).valuePath;
-    this.setValue(valuePath, null);
+    this.setValue(id, null);
   }
 
-  addListItem(id: number): void {
+  addListItem(listId: number): void {
 
   }
 
-  removeListItem(id: number): void {
+  removeListItem(itemId: number): void {
 
   }
 }

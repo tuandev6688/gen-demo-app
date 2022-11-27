@@ -11,14 +11,16 @@ input, button, select {
 }
 
 input, select {
-  padding: 4px 8px;
+  padding: 0 8px;
   width: 200px;
+  height: 24px;
   box-sizing: border-box;
 }
 
 .props {
   display: flex;
   gap: 8px;
+  min-width: 360px;
 
   .meta {
     color: #777;
@@ -39,6 +41,7 @@ input, select {
   display: flex;
   justify-content: flex-end;
   gap: 8px;
+  min-width: 200px;
 }
 
 button {

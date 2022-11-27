@@ -1,21 +1,21 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FacadeService } from '../../engine/facade.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-select',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
 })
 export class SelectComponent {
   id!: number;
-  valuePath!: string;
 
   label!: string;
-  placeholder!: string;
   valueOptions!: { value: any; label: string }[];
+  removable!: boolean;
 
   value!: number;
 
@@ -26,7 +26,7 @@ export class SelectComponent {
   constructor(private facade: FacadeService) {}
 
   setValue(value: string): void {
-    this.facade.setValue(this.valuePath, value);
+    this.facade.setValue(this.id, value);
   }
 
   reset(): void {
@@ -39,5 +39,9 @@ export class SelectComponent {
 
   markAsTouched(): void {
     this.facade.patchState(this.id, { touched: true });
+  }
+
+  remove(): void {
+    this.facade.removeListItem(this.id);
   }
 }

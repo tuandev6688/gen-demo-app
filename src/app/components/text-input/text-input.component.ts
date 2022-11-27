@@ -11,9 +11,9 @@ import { FacadeService } from '../../engine/facade.service';
 })
 export class TextInputComponent {
   id!: number;
-  valuePath!: string;
 
   label!: string;
+  removable!: boolean;
 
   value!: string;
 
@@ -24,7 +24,7 @@ export class TextInputComponent {
   constructor(private facade: FacadeService) {}
 
   setValue(value: string): void {
-    this.facade.setValue(this.valuePath, value);
+    this.facade.setValue(this.id, value);
   }
 
   reset(): void {
@@ -37,5 +37,9 @@ export class TextInputComponent {
 
   markAsTouched(): void {
     this.facade.patchState(this.id, { touched: true });
+  }
+
+  remove(): void {
+    this.facade.removeListItem(this.id);
   }
 }

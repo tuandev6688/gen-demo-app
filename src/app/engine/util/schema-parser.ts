@@ -14,9 +14,9 @@ export interface ParseResult {
 export class SchemaParser {
   private increment = 1;
 
-  parse(schema: ComponentSchema, schemaPath: string, valuePath: string): ParseResult {
+  parse(schema: ComponentSchema, schemaPath: string, parentId: number | null, key: string | number): ParseResult {
     const componentsStructures: Record<number, ComponentStructure> = {};
-    const rootComponentId = this.flattenNode(schema, componentsStructures, schemaPath, valuePath);
+    const rootComponentId = this.flattenNode(schema, componentsStructures, schemaPath, parentId, key);
 
     const componentsIds: number[] = Object.keys(componentsStructures) as any;
     const componentsStates: Record<number, ComponentState> = {};
@@ -29,7 +29,7 @@ export class SchemaParser {
     return { rootComponentId, componentsStructures, componentsStates, defaultValue };
   }
 
-  private flattenNode(schema: ComponentSchema, components: Record<number, ComponentStructure>, schemaPath: string, valuePath: string): any {
+  private flattenNode(schema: ComponentSchema, components: Record<number, ComponentStructure>, schemaPath: string, parentId: number | null, key: string | number): any {
     const id = this.increment++;
     let structure: ComponentStructure;
 
@@ -37,11 +37,12 @@ export class SchemaParser {
       const { children, ...props } = schema;
       structure = {
         id,
-        schemaPath: schemaPath,
-        valuePath,
+        parentId,
+        key,
+        schemaPath,
         ...props,
         children: children.map(child => {
-          const childId = this.flattenNode(child, components, `${schemaPath}/children/${child.key}`, `${valuePath}/${child.key}`);
+          const childId = this.flattenNode(child, components, `${schemaPath}/children/${child.key}`, id, child.key);
           return { id: childId, key: child.key };
         }),
       };
@@ -49,18 +50,19 @@ export class SchemaParser {
       const { commonChildren, branches, ...props } = schema;
       structure = {
         id,
-        schemaPath: schemaPath,
-        valuePath,
+        parentId,
+        key,
+        schemaPath,
         ...props,
         commonChildren: commonChildren.map(child => {
-          const childId = this.flattenNode(child, components, `${schemaPath}/commonChildren/${child.key}`, `${valuePath}/${child.key}`);
+          const childId = this.flattenNode(child, components, `${schemaPath}/commonChildren/${child.key}`, id, child.key);
           return { id: childId, key: child.key };
         }),
         branches: branches.map(branch => {
           return {
             ...branch,
             branchChildren: branch.branchChildren.map(child => {
-              const childId = this.flattenNode(child, components, `${schemaPath}/branches/${branch.key}/branchChildren/${child.key}`, `${valuePath}/${child.key}`);
+              const childId = this.flattenNode(child, components, `${schemaPath}/branches/${branch.key}/branchChildren/${child.key}`, id, child.key);
               return { id: childId, key: child.key };
             }),
           };
@@ -70,13 +72,14 @@ export class SchemaParser {
       const { item, ...props } = schema;
       structure = {
         id,
+        parentId,
+        key,
         schemaPath,
-        valuePath,
         ...props,
         items: [],
       };
     } else {
-      structure = { id, schemaPath, valuePath, ...schema };
+      structure = { id, parentId, key, schemaPath, ...schema };
     }
 
     components[id] = structure;

@@ -8,12 +8,12 @@ import { Observable } from 'rxjs';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  schemaName = 'contactList';
+  schemaName = 'account';
   value$!: Observable<any>;
 
   constructor(private facade: FacadeService) {}
 
   ngOnInit(): void {
-    this.value$ = this.facade.watchValue(this.schemaName);
+    this.value$ = this.facade.watchValueByPath(this.schemaName);
   }
 }
