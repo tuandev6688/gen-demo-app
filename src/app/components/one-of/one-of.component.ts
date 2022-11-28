@@ -22,7 +22,7 @@ export class OneOfComponent implements OnInit {
     label: string;
     branchChildren: { key: string; id: number }[];
   }[];
-  removable!: boolean;
+  listItem!: boolean;
 
   value: any;
 

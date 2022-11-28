@@ -15,7 +15,7 @@ export class SelectComponent {
 
   label!: string;
   valueOptions!: { value: any; label: string }[];
-  removable!: boolean;
+  listItem!: boolean;
 
   value!: number;
 

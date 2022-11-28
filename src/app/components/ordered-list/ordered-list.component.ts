@@ -16,7 +16,7 @@ export class OrderedListComponent {
   label!: string;
   addLabel!: string;
   emptyMessage!: string;
-  removable!: boolean;
+  listItem!: boolean;
 
   items!: number[];
 

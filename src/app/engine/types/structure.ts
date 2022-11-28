@@ -6,7 +6,7 @@ interface BaseComponentStructure {
   disabled?: boolean;
   hidden?: boolean;
   schemaPath: string;
-  removable?: boolean;
+  listItem?: boolean;
 }
 
 export interface GroupComponentStructure extends BaseComponentStructure {

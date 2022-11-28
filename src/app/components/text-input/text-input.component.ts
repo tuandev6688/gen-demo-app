@@ -11,9 +11,10 @@ import { FacadeService } from '../../engine/facade.service';
 })
 export class TextInputComponent {
   id!: number;
+  key!: string | number;
 
   label!: string;
-  removable!: boolean;
+  listItem!: boolean;
 
   value!: string;
 

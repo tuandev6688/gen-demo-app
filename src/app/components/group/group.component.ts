@@ -12,10 +12,11 @@ import { FacadeService } from '../../engine/facade.service';
 })
 export class GroupComponent {
   id!: number;
+  key!: string | number;
 
   label!: string;
   children!: { key: string; id: number }[];
-  removable!: boolean;
+  listItem!: boolean;
 
   dirty!: boolean;
   touched!: boolean;
